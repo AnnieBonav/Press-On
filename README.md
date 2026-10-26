@@ -1,5 +1,37 @@
 # Press-On
 
+## v2: wireless (in progress)
+
+v2 moves the electronics inside the ball: a Seeed XIAO ESP32-C3 or S3 on a small LiPo, Bluetooth LE instead of the aux cable and Arduino box, haptic feedback, and a Unity interface.
+
+| Folder | What's in it |
+| --- | --- |
+| [`firmware/`](firmware) | XIAO firmware: flex sensor, calibration, Bluetooth, haptics, USB serial (still works with the v1 app), squeeze-to-wake |
+| [`bridge/`](bridge) | Python bridge from the ball (Bluetooth, USB or simulated) to Unity over UDP |
+| [`unity/`](unity) | Unity starter project: patient view, therapist timeline, haptic coach, session recording |
+| [`hardware/v2/`](hardware/v2) | Printable ball and electronics pod with a USB-C outlet, wiring and parts list |
+| [`docs/BLE_PROTOCOL.md`](docs/BLE_PROTOCOL.md) | The Bluetooth protocol, if you want to talk to the ball from anything else |
+
+### Quick start
+
+```bash
+# 1. Flash the XIAO (PlatformIO), or open firmware/PressOnBLE/PressOnBLE.ino in the Arduino IDE
+cd firmware && pio run -e xiao_esp32c3 -t upload        # or -e xiao_esp32s3
+
+# 2. Run the bridge
+cd ../bridge && pip install -r requirements.txt
+python press_on_bridge.py            # finds "Press-On" over Bluetooth
+python press_on_bridge.py --sim      # no hardware needed
+
+# 3. Open unity/PressOnVisualizer, run Press-On > Build Demo Scene, press Play
+```
+
+Arduino IDE: install the "esp32" boards package by Espressif, pick "XIAO_ESP32C3" or "XIAO_ESP32S3". Only install the "Adafruit DRV2605" library if you use that haptic driver.
+
+---
+
+## v1
+
 ## What is it?
 Press-On is an akin stress-ball like prototype that... The project´s idea was pitched by the department of Social Sciences of the University of Applied Sciences of St. Pölten. The prototype first started by using 6cm toy balls, a protboard, an 8cm 500g flex sensor and an Arduiono UNO. It quickly evolved to the afterward described parts.
 
